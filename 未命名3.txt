@@ -41,3 +41,8 @@ Git add . 添加所有文件
 
 git commit -m “注释” 提交更改
 
+git config --global core.quotepath false   utf-8 编码转译以兼容老旧终端,可以运行关闭转译
+
+git status 看看结果
+
+git diff  查看差异
