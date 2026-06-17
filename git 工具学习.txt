@@ -53,3 +53,6 @@ git diff  查看差异
 --mixed：改"提交历史"和"暂存区"，不改"工作目录"
 
 --hard：全部重置（历史+暂存+工作目录）
+
+git push -u origin master  首次推送到远程master分支 -u本地分支 远程分支 关联
+git push origin master  推送到远程master分支
