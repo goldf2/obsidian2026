@@ -61,3 +61,7 @@ git branch 查看分支
 
 
 测试关联多个仓库
+
+git remote set-url github git@github.com:goldf2/gitlearn.git。 更换远程仓库地址
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKid2ygIcWt0tGIeuKB0rVdpM6NgoN1Gu9ABctJri/wz goldf2@163.com
