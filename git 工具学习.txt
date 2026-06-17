@@ -56,3 +56,8 @@ git diff  查看差异
 
 git push -u origin master  首次推送到远程master分支 -u本地分支 远程分支 关联
 git push origin master  推送到远程master分支
+
+git branch 查看分支
+
+
+测试关联多个仓库
