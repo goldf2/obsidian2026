@@ -22,13 +22,68 @@ git@github.com:goldf2/gitlearn.git
 
 4. 终端能进入本地仓库目录。
 
-示例：
+macOS 示例：
 
 ```bash
 cd "/Volumes/资料/git test"
 ```
 
+Linux 示例：
+
+```bash
+cd ~/git-test
+```
+
 ## 操作流程
+
+```mermaid
+flowchart TD
+    A[进入本地 Git 仓库目录] --> B[检查仓库状态 git status]
+    B --> C[查看远程地址 git remote -v]
+    C --> D{是否已有 github 远程地址}
+    D -- 否 --> E[添加 GitHub SSH 远程地址]
+    D -- 是 --> F[更新 github 远程地址]
+    E --> G[检查本机 SSH 公钥]
+    F --> G
+    G --> H{是否已有 id_ed25519.pub}
+    H -- 否 --> I[生成 SSH Key]
+    H -- 是 --> J[加载 SSH Key 到 ssh-agent]
+    I --> J
+    J --> K{当前系统}
+    K -- macOS --> L[使用 pbcopy 复制公钥]
+    K -- Linux --> M[使用 cat/xclip/wl-copy 获取公钥]
+    L --> N[在 GitHub 添加 SSH Key]
+    M --> N
+    N --> O[测试 SSH 连接 ssh -T git@github.com]
+    O --> P{认证是否成功}
+    P -- 否 --> Q[按 Permission denied 排错]
+    Q --> J
+    P -- 是 --> R[推送本地 main 分支到 GitHub]
+    R --> S[后续使用 git add/commit/push 日常同步]
+    click A "#check-repo" "查看章节：检查本地仓库状态"
+    click B "#check-repo" "查看章节：检查本地仓库状态"
+    click C "#check-repo" "查看章节：检查本地仓库状态"
+    click D "#config-remote" "查看章节：配置 GitHub 远程地址"
+    click E "#config-remote" "查看章节：配置 GitHub 远程地址"
+    click F "#config-remote" "查看章节：配置 GitHub 远程地址"
+    click G "#check-ssh-key" "查看章节：检查本机 SSH Key"
+    click H "#check-ssh-key" "查看章节：检查本机 SSH Key"
+    click I "#check-ssh-key" "查看章节：检查本机 SSH Key"
+    click J "#ssh-agent" "查看章节：将 SSH Key 加入 ssh-agent"
+    click K "#ssh-agent" "查看章节：将 SSH Key 加入 ssh-agent"
+    click L "#add-key-to-github" "查看章节：添加 SSH Key 到 GitHub"
+    click M "#add-key-to-github" "查看章节：添加 SSH Key 到 GitHub"
+    click N "#add-key-to-github" "查看章节：添加 SSH Key 到 GitHub"
+    click O "#test-ssh" "查看章节：测试 SSH 连接"
+    click P "#test-ssh" "查看章节：测试 SSH 连接"
+    click Q "#permission-denied" "查看章节：Permission denied 排错"
+    click R "#push-to-github" "查看章节：推送本地仓库到 GitHub"
+    click S "#daily-sync" "查看章节：后续日常同步"
+```
+
+说明：支持 Mermaid 交互链接的平台可以点击流程图节点跳转到对应章节；如果当前平台禁用了 Mermaid 点击事件，仍可按下方章节顺序阅读。
+
+<a id="check-repo"></a>
 
 ### 1. 检查本地仓库状态
 
@@ -45,6 +100,8 @@ git status
 ```bash
 git remote -v
 ```
+
+<a id="config-remote"></a>
 
 ### 2. 配置 GitHub 远程地址
 
@@ -73,6 +130,8 @@ github  git@github.com:goldf2/gitlearn.git (fetch)
 github  git@github.com:goldf2/gitlearn.git (push)
 ```
 
+<a id="check-ssh-key"></a>
+
 ### 3. 检查本机 SSH Key
 
 检查是否已有 SSH 公钥：
@@ -91,12 +150,21 @@ ssh-keygen -t ed25519 -C "你的邮箱"
 
 按提示一路回车即可。
 
+<a id="ssh-agent"></a>
+
 ### 4. 将 SSH Key 加入 ssh-agent
 
-执行：
+macOS 执行：
 
 ```bash
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+```
+
+Linux 执行：
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
 ```
 
 查看是否加载成功：
@@ -107,12 +175,32 @@ ssh-add -l -E sha256
 
 如果能看到一条 `ED25519` 记录，说明加载成功。
 
+<a id="add-key-to-github"></a>
+
 ### 5. 添加 SSH Key 到 GitHub
 
-复制公钥到剪贴板：
+macOS 复制公钥到剪贴板：
 
 ```bash
 pbcopy < ~/.ssh/id_ed25519.pub
+```
+
+Linux 可以先直接打印公钥内容，再手动复制整行：
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+如果 Linux 已安装剪贴板工具，也可以使用：
+
+```bash
+xclip -selection clipboard < ~/.ssh/id_ed25519.pub
+```
+
+Wayland 桌面环境可使用：
+
+```bash
+wl-copy < ~/.ssh/id_ed25519.pub
 ```
 
 打开 GitHub 网页，按以下路径操作：
@@ -123,12 +211,14 @@ pbcopy < ~/.ssh/id_ed25519.pub
 
 填写：
 
-- Title：例如 `MacBook Pro`
+- Title：例如 `MacBook Pro` 或 `Linux PC`
 - Key：粘贴刚才复制的公钥内容
 
 然后点击保存。
 
 注意：SSH Key 必须添加到拥有目标仓库权限的 GitHub 账号里。
+
+<a id="test-ssh"></a>
 
 ### 6. 测试 SSH 连接
 
@@ -146,6 +236,8 @@ Hi goldf2! You've successfully authenticated, but GitHub does not provide shell 
 
 说明 SSH 配置成功。
 
+<a id="push-to-github"></a>
+
 ### 7. 推送本地仓库到 GitHub
 
 推送当前 `main` 分支：
@@ -161,6 +253,8 @@ git push -u github main
 - `-u`：设置默认上游分支，后续可以直接使用 `git push`。
 
 成功后，本地仓库就同步到了 GitHub。
+
+<a id="daily-sync"></a>
 
 ## 后续日常同步
 
@@ -196,11 +290,35 @@ git remote set-url github git@github.com:goldf2/gitlearn.git
 
 原因：GitHub 没有接受当前电脑的 SSH Key。
 
+<a id="permission-denied"></a>
+
 处理步骤：
+
+macOS：
 
 ```bash
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 pbcopy < ~/.ssh/id_ed25519.pub
+```
+
+Linux：
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+```
+
+Linux 如果安装了剪贴板工具，也可以用下面命令复制公钥：
+
+```bash
+xclip -selection clipboard < ~/.ssh/id_ed25519.pub
+```
+
+Wayland 桌面环境可使用：
+
+```bash
+wl-copy < ~/.ssh/id_ed25519.pub
 ```
 
 然后到 GitHub：

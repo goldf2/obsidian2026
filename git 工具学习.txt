@@ -65,3 +65,31 @@ git branch 查看分支
 git remote set-url github git@github.com:goldf2/gitlearn.git。 更换远程仓库地址
 
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKid2ygIcWt0tGIeuKB0rVdpM6NgoN1Gu9ABctJri/wz goldf2@163.com
+
+
+
+  做法一：把当前分支合并回 main
+
+  你现在的提交已经在 docs/restructure-merge-data-separation 上，可以这样：
+
+  git switch main
+  git merge docs/restructure-merge-data-separation
+  git push github main
+
+  如果也要推 Gitee：
+
+  git push origin main
+
+  因为 main 目前还停在旧提交，通常这会是 fast-forward 合并，历史会很干净。
+
+
+
+• 重命名 Git 远端用：
+
+  git remote rename <旧名称> <新名称>
+
+
+git remote add github git@github.com:goldf2/test.git  添加远程仓库
+
+git remote set-url --add --push origin git@gitee.com:goldf2/web2py-service-spec.git  添加第二个地址
+
