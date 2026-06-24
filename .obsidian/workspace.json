@@ -1,0 +1,202 @@
+{
+  "main": {
+    "id": "753151c24bdc6ff7",
+    "type": "split",
+    "children": [
+      {
+        "id": "e9a3342c0b052f37",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7f81ffdaaebf8e5f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "工作日记.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "工作日记"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "0ec6fd70d4373d0d",
+    "type": "split",
+    "children": [
+      {
+        "id": "26be230f689893ba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "92acd6a09f70124a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "0ff612ecdca43c2c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "ce431bf74d50686b",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "202c57f36fdf1dc1",
+    "type": "split",
+    "children": [
+      {
+        "id": "b6a80e81f900bceb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "52228984d1426019",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "工作日记.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "工作日记 的反向链接列表"
+            }
+          },
+          {
+            "id": "d9f47f2bc31d3006",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "工作日记.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "工作日记 的出链列表"
+            }
+          },
+          {
+            "id": "f4e99c6ecbdd0b72",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "9c7d8c36e5e54c1a",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "9f7512db83543569",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "工作日记.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "工作日记 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "7f81ffdaaebf8e5f",
+  "lastOpenFiles": [
+    "coolify-static/md-html-tool/README.md",
+    "coolify-static/md-html-tool/index.html",
+    "coolify-static/md-html-tool",
+    "coolify-static",
+    "仓库与文档管理总则.md",
+    "文档归属边界规范.md",
+    "笔记/文档归属边界规范.md",
+    "笔记/仓库与文档管理总则.md",
+    "项目/odoo数字化工厂",
+    "项目/未命名文件夹",
+    "项目/创新",
+    "VPS-AL03/deploy-inventory.md",
+    "工作日记.md"
+  ]
+}

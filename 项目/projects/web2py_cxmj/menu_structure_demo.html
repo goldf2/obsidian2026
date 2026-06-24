@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>cxmj AdminLTE 桌面菜单演示</title>
+  <link rel="stylesheet" href="vendor/adminlte-4.0.2/dist/css/adminlte.min.css">
+  <style>
+    :root {
+      --cx-system: #1455a3;
+      --cx-sidebar: #23464b;
+      --cx-page: #fff7e8;
+      --cx-page-border: #f0d3a0;
+      --cx-action: #8f3d2f;
+      --cx-action-soft: #fdeee9;
+    }
+
+    body {
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+    }
+
+    .app-wrapper {
+      min-width: 1240px;
+    }
+
+    .app-header {
+      min-height: 58px;
+      padding: 0;
+      border-bottom: 1px solid #d7dee7;
+    }
+
+    .cx-topbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) max-content;
+      min-height: 58px;
+      width: 100%;
+    }
+
+    .cx-page-tools,
+    .cx-system-nav {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: .5rem;
+      min-height: 58px;
+      padding: 0 1rem;
+      white-space: nowrap;
+    }
+
+    .cx-page-tools {
+      background: #f8fbff;
+      overflow: visible;
+    }
+
+    .cx-tool-group {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      min-width: 0;
+    }
+
+    .cx-divider {
+      width: 1px;
+      height: 26px;
+      background: #d7dee7;
+      flex: 0 0 auto;
+    }
+
+    .cx-system-nav {
+      background: var(--cx-system);
+      color: #fff;
+    }
+
+    .cx-zone {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 0 .65rem;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .cx-zone-page {
+      background: #e9f1fb;
+      color: var(--cx-system);
+    }
+
+    .cx-zone-system {
+      background: rgba(255,255,255,.16);
+      color: #fff;
+    }
+
+    .cx-page-tools .btn {
+      border-color: var(--cx-page-border);
+      background: var(--cx-page);
+      color: #7a5418;
+    }
+
+    .cx-page-tools .btn.active {
+      background: #f1d39a;
+      font-weight: 700;
+    }
+
+    .cx-page-tools .dropdown-menu {
+      min-width: 11rem;
+      border-color: var(--cx-page-border);
+    }
+
+    .cx-page-tools .dropdown-item.active,
+    .cx-page-tools .dropdown-item:active {
+      background: #f1d39a;
+      color: #7a5418;
+      font-weight: 700;
+    }
+
+    .cx-quick {
+      border-color: #efc0b6 !important;
+      background: var(--cx-action-soft) !important;
+      color: var(--cx-action) !important;
+      font-weight: 700;
+    }
+
+    .cx-system-nav .btn {
+      border-color: rgba(255,255,255,.2);
+      color: #fff;
+    }
+
+    .cx-system-nav .btn:hover {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+    }
+
+    .app-sidebar {
+      background: var(--cx-sidebar);
+    }
+
+    .sidebar-brand {
+      background: rgba(0,0,0,.14);
+    }
+
+    .sidebar-brand .brand-link {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .sidebar-wrapper .nav-link,
+    .sidebar-wrapper .nav-header {
+      color: #dce9e7;
+    }
+
+    .sidebar-wrapper .nav-treeview .nav-link {
+      padding-left: 1.65rem;
+    }
+
+    .sidebar-wrapper .nav-treeview .nav-treeview .nav-link {
+      padding-left: 2.35rem;
+      font-size: .92rem;
+    }
+
+    .sidebar-wrapper .nav-link p {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin: 0;
+      gap: .5rem;
+    }
+
+    .sidebar-wrapper .nav-note {
+      color: #9fc3bf;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .sidebar-wrapper .nav-header {
+      color: #9fc3bf;
+      font-weight: 700;
+    }
+
+    .sidebar-wrapper .nav-link.active {
+      border: 1px solid #8bc3b9;
+      background: rgba(232,244,242,.14);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .content-wrapper {
+      background: #f3f6f9;
+    }
+
+    .cx-intro {
+      max-width: 1480px;
+      min-width: 1240px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 0;
+    }
+
+    .cx-intro p {
+      max-width: 980px;
+    }
+
+    .app-main {
+      overflow-x: auto;
+    }
+
+    .app-content {
+      min-width: 1004px;
+    }
+
+    .cx-link-card {
+      margin-top: 1.5rem;
+    }
+
+    .table td,
+    .table th {
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+  <div class="app-wrapper">
+    <nav class="app-header navbar navbar-expand bg-body">
+      <div class="cx-topbar">
+        <div class="cx-page-tools" aria-label="顶部业务两级菜单和 toolbar">
+          <div class="cx-tool-group">
+            <span class="cx-zone cx-zone-page">业务菜单</span>
+
+            <div class="dropdown">
+              <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">产品库存</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">产品列表</a></li>
+                <li><a class="dropdown-item" href="#">低库存预警</a></li>
+              </ul>
+            </div>
+
+            <div class="dropdown">
+              <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">缺货督促</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">缺货列表</a></li>
+                <li><a class="dropdown-item" href="#">紧急预警</a></li>
+                <li><a class="dropdown-item" href="#">超期预警</a></li>
+              </ul>
+            </div>
+
+            <div class="dropdown">
+              <button class="btn btn-sm active dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">发货管理</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item active" href="#">发货记录</a></li>
+                <li><a class="dropdown-item" href="#">发货计划</a></li>
+                <li><a class="dropdown-item" href="#">发车时刻表</a></li>
+                <li><a class="dropdown-item" href="#">车辆管理</a></li>
+                <li><a class="dropdown-item" href="#">统计分析</a></li>
+              </ul>
+            </div>
+
+            <div class="dropdown">
+              <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">导入导出</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">导入产品</a></li>
+                <li><a class="dropdown-item" href="#">导出发货</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <span class="cx-divider"></span>
+
+          <div class="cx-tool-group">
+            <span class="cx-zone cx-zone-page">Toolbar</span>
+            <button class="btn btn-sm cx-quick" type="button">新增发货</button>
+            <button class="btn btn-sm" type="button">导出</button>
+            <button class="btn btn-sm" type="button">刷新</button>
+          </div>
+        </div>
+
+        <div class="cx-system-nav" aria-label="顶部固定导航">
+          <span class="cx-zone cx-zone-system">系统导航</span>
+          <a class="btn btn-sm" href="#">系统首页</a>
+          <a class="btn btn-sm" href="menu_mega_demo.html">应用</a>
+          <a class="btn btn-sm" href="#">通知</a>
+          <a class="btn btn-sm" href="#">站内信</a>
+          <a class="btn btn-sm" href="#">系统管理</a>
+          <a class="btn btn-sm" href="#">用户</a>
+        </div>
+      </div>
+    </nav>
+
+    <aside class="app-sidebar shadow" data-bs-theme="dark">
+      <div class="sidebar-brand">
+        <a href="#" class="brand-link">
+          <span class="brand-text fw-semibold">冲压模具发货</span>
+        </a>
+      </div>
+
+      <div class="sidebar-wrapper">
+        <nav class="mt-2" aria-label="侧面导航">
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu">
+            <li class="nav-header">同一份菜单树的垂直渲染</li>
+
+            <li class="nav-item menu-open">
+              <a href="#" class="nav-link">
+                <p><span>生产物流</span><span class="nav-note">一级</span></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <p><span>产品库存</span><span class="nav-note">二级</span></p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item"><a class="nav-link" href="#"><p>产品列表</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>低库存预警</p></a></li>
+                  </ul>
+                </li>
+
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <p><span>缺货督促</span><span class="nav-note">二级</span></p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item"><a class="nav-link" href="#"><p>缺货列表</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>紧急预警</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>超期预警</p></a></li>
+                  </ul>
+                </li>
+
+                <li class="nav-item menu-open">
+                  <a href="#" class="nav-link active">
+                    <p><span>发货管理</span><span class="nav-note">二级</span></p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item"><a class="nav-link active" href="#"><p>发货记录</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>发货计划</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>发车时刻表</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>车辆管理</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>统计分析</p></a></li>
+                  </ul>
+                </li>
+
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <p><span>导入导出</span><span class="nav-note">二级</span></p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item"><a class="nav-link" href="#"><p>导入产品</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><p>导出发货</p></a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p><span>质量管理</span><span class="nav-note">一级</span></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item"><a class="nav-link" href="#"><p>质量看板</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><p>来料检验</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><p>质量报表</p></a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p><span>知识题库</span><span class="nav-note">一级</span></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item"><a class="nav-link" href="#"><p>即时联络 1</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><p>即时联络 2</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><p>错题记录</p></a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p><span>系统工具</span><span class="nav-note">一级</span></p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item"><a class="nav-link" href="#"><p>文件管理</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><p>页面管理</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><p>网站地图</p></a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+
+    <main class="app-main">
+      <div class="content-wrapper">
+        <section class="cx-intro">
+          <h1 class="h3 mb-2">cxmj AdminLTE 桌面菜单演示</h1>
+          <p class="text-secondary mb-3">基于 AdminLTE 框架演示桌面端 cxmj layout。侧面三级菜单与 Mega menu 使用同一份菜单树；顶部同一行右侧是系统导航，左侧放当前系统的两级业务菜单和 toolbar，高频跳转更接近实际发货管理页面。</p>
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge text-bg-primary">顶部固定导航</span>
+            <span class="badge text-bg-success">三级侧面菜单</span>
+            <span class="badge text-bg-warning">顶部两级业务菜单</span>
+            <span class="badge text-bg-danger">Toolbar 可放顶部区域</span>
+          </div>
+        </section>
+
+        <div class="app-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="card card-primary card-outline">
+                  <div class="card-header">
+                    <div class="card-title">发货记录</div>
+                    <div class="card-tools">
+                      <span class="badge text-bg-warning">面包屑展示垂直深度</span>
+                      <span class="badge text-bg-danger">Toolbar 在顶部区域</span>
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                    <nav aria-label="面包屑导航">
+                      <ol class="breadcrumb mb-3">
+                        <li class="breadcrumb-item">生产物流</li>
+                        <li class="breadcrumb-item">冲压模具发货</li>
+                        <li class="breadcrumb-item">发货管理</li>
+                        <li class="breadcrumb-item active" aria-current="page">发货记录</li>
+                      </ol>
+                    </nav>
+
+                    <p class="text-secondary">当前发货记录页在桌面端把业务菜单明确做成两级：一级模块在顶部同行展示，点击后进入对应二级页面列表；toolbar 仍放在同一行，但逻辑上不混入菜单层级。</p>
+
+                    <div class="btn-group mb-3" aria-label="状态筛选">
+                      <a class="btn btn-warning active" href="#">全部</a>
+                      <a class="btn btn-outline-warning" href="#">待发货</a>
+                      <a class="btn btn-outline-warning" href="#">已发货</a>
+                      <a class="btn btn-outline-warning" href="#">异常</a>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                      <div class="col-md-3">
+                        <div class="small-box text-bg-light border">
+                          <div class="inner"><h3>42</h3><p>产品总数</p></div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="small-box text-bg-light border">
+                          <div class="inner"><h3>20</h3><p>缺货记录</p></div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="small-box text-bg-light border">
+                          <div class="inner"><h3>17</h3><p>发货记录</p></div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="small-box text-bg-light border">
+                          <div class="inner"><h3>4</h3><p>发货单位</p></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>单号</th>
+                            <th>客户</th>
+                            <th>状态</th>
+                            <th>计划日期</th>
+                            <th>行操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>SHIP-20260618-01</td>
+                            <td>华东客户</td>
+                            <td><span class="badge text-bg-warning">待发货</span></td>
+                            <td>2026-06-18</td>
+                            <td><button class="btn btn-sm btn-outline-danger" type="button">查看</button></td>
+                          </tr>
+                          <tr>
+                            <td>SHIP-20260618-02</td>
+                            <td>华南客户</td>
+                            <td><span class="badge text-bg-success">已发货</span></td>
+                            <td>2026-06-18</td>
+                            <td><button class="btn btn-sm btn-outline-danger" type="button">查看</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card card-success card-outline cx-link-card">
+                  <div class="card-header">
+                    <div class="card-title">独立演示页面</div>
+                  </div>
+                  <div class="card-body">
+                    <p class="text-secondary">Mega menu 与左侧 sidebar 使用同一份三级菜单树。Mega menu 是横向分组页面，sidebar 是垂直单列 treeview；顶部左侧则用 dropdown 呈现当前系统的两级业务菜单，并和 toolbar 放在同一行。</p>
+                    <a class="btn btn-outline-success" href="menu_mega_demo.html">打开 Mega menu 独立演示页</a>
+                    <a class="btn btn-outline-success" href="menu_mobile_demo.html">打开移动端独立演示页</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="vendor/bootstrap-5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/adminlte-4.0.2/dist/js/adminlte.min.js"></script>
+</body>
+</html>

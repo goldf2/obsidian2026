@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>S2-数据代码分离规范</title>
+  <style>
+      *{box-sizing:border-box}
+      body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1f2937;background:#f4f8f7;letter-spacing:0}
+      .doc-shell{position:relative;min-height:100vh;padding:28px;background:linear-gradient(180deg, #f4f8f7 0%, #edf5f3 100%);overflow:hidden;isolation:isolate}
+      .doc-shell::before,.doc-shell::after{content:"";position:absolute;border-radius:999px;filter:blur(18px);opacity:.9;z-index:-1}
+      .doc-shell::before{top:22px;left:18px;width:240px;height:240px;background:radial-gradient(circle, rgba(15, 118, 110, 0.12) 0%, transparent 68%)}
+      .doc-shell::after{right:36px;bottom:16px;width:300px;height:300px;background:radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%)}
+      .doc-page{position:relative;max-width:1120px;margin:0 auto;padding:42px 48px 54px;border:1px solid rgba(215, 226, 224, 0.9);border-radius:28px;background:rgba(255, 255, 255, 0.92);box-shadow:0 28px 80px rgba(15, 23, 42, 0.10);backdrop-filter:blur(10px)}
+      .doc-content>:first-child{margin-top:0}.doc-content>:last-child{margin-bottom:0}
+      h1,h2,h3{margin:1.2em 0 .55em;line-height:1.28}
+      h1{position:relative;font-size:34px;padding-bottom:18px;border-bottom:1px solid #d7e2e0}
+      h1::after{content:"";position:absolute;left:0;bottom:-1px;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg, #0f766e, #2563eb)}
+      h2{font-size:21px} h3{font-size:17px}
+      p,li,td,th{font-size:14px;line-height:1.75}
+      a{color:#0f766e}
+      hr{margin:24px 0;border:0;border-top:1px solid #d7e2e0}
+      table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;border-radius:14px;overflow:hidden}
+      th,td{border:1px solid #d7e2e0;padding:8px 10px;text-align:left;vertical-align:top}
+      th{background:#eef7f5;color:#5f6f77;font-weight:600}
+      tbody tr:nth-child(even) td{background:#f8fcfb}
+      blockquote{margin:14px 0;padding:9px 12px;border-left:4px solid #0f766e;background:#def7f3;color:#115e59;border-radius:0 14px 14px 0}
+      pre{overflow:auto;padding:12px;border:1px solid #d7e2e0;border-radius:14px;background:#edf6f4;box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.7)}
+      code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+      :not(pre)>code{padding:2px 5px;border-radius:5px;background:#edf6f4}
+      .mermaid{margin:16px 0;padding:16px;border:1px solid #d7e2e0;border-radius:16px;background:#ffffff;box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.7)}
+      @media (max-width:980px){.doc-shell{padding:16px}.doc-page{padding:28px 20px 34px;border-radius:20px}}
+      </style>
+</head>
+<body>
+  <main class="doc-shell"><section class="doc-page"><article class="doc-content"><h1>S2 数据代码分离规范</h1>
+<h2>1. 阶段定位</h2>
+<p>S2 明确代码与运行数据边界，确保 Git 只管理代码、模板和文档，不管理真实运行数据。</p>
+<h2>2. 阶段目标</h2>
+<ul>
+<li>明确哪些文件未来可以进入 Git。</li>
+<li>明确哪些数据库、上传文件、真实配置和 runtime 必须排除。</li>
+<li>为存储外置和 Docker 化建立边界。</li>
+</ul>
+<h2>3. 必做事项</h2>
+<ul>
+<li>梳理代码目录与数据目录边界。</li>
+<li>标记数据库、uploads、config、sessions、errors、cache、logs。</li>
+<li>输出发布不覆盖数据的规则。</li>
+</ul>
+<h2>4. 交付物</h2>
+<ul>
+<li>数据与代码边界表。</li>
+<li>不入 Git 目录清单。</li>
+<li>发布前敏感文件检查规则。</li>
+</ul>
+<h2>5. 验收标准</h2>
+<ul>
+<li>代码发布不覆盖生产数据。</li>
+<li>Git 不纳入数据库、上传文件和真实配置。</li>
+</ul>
+<h2>6. 关联文档</h2>
+<ul>
+<li><code>数据代码分离统一规范.md</code></li>
+<li><code>web2py服务开发规范.md</code></li>
+<li><code>数据存储与PaaS部署治理路线图.md</code></li>
+</ul>
+</article></section></main>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad:true,
+      securityLevel:'loose',
+      theme:'base',
+      themeVariables:{"primaryColor":"#eef7f5","primaryBorderColor":"#0f766e","primaryTextColor":"#1f2937","lineColor":"#5f6f77","secondaryColor":"#def7f3","tertiaryColor":"#ffffff","background":"#ffffff","mainBkg":"#eef7f5","fontFamily":"-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"}
+    });
+  </script>
+</body>
+</html>

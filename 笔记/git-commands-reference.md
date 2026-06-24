@@ -22,6 +22,9 @@ git config --global core.editor "vim"
 
 # 查看当前所有配置
 git config --global --list
+
+# 关闭中文路径转义，让 Git 输出直接显示中文文件名
+git config --global core.quotepath false
 ```
 
 ---
@@ -102,6 +105,8 @@ origin	git@gitee.com:goldf2/web2py-service-spec.git (push)
 
 ```bash
 git remote -v                          # 查看所有 remote 配置
+git remote add github git@github.com:goldf2/test.git # 添加一个名为 github 的远程仓库
+git remote rename <旧名称> <新名称>    # 重命名 remote
 git remote rm origin                   # 删除 remote（本地配置，不影响远程仓库）
 git remote set-url origin <url>        # 修改 fetch 地址
 git remote set-url --add --push origin <url>   # 追加 push 地址
@@ -185,6 +190,8 @@ git remote -v
 | `git remote set-url --delete --push origin <url>` | 删除指定的显式 push URL | ✅ 保留其他的 |
 | `git remote set-url --add origin <url>` | 添加**默认 URL**（不用于 push） | ❌ 对 push 无影响 |
 
+> 如果是一个单独命名的远程仓库，例如 `github`，可以用 `git remote set-url github git@github.com:goldf2/gitlearn.git` 修改它的地址。
+
 ```bash
 # 首次推送本地分支并设置上游（之后可直接 git push）
 git push -u origin main
@@ -243,9 +250,31 @@ git branch -D 分支名       # 强制删除未合并分支
 # git push -u origin 分支名
 ```
 
+### 分支合并回 main
+
+如果修改已经在功能分支上，确认无误后可以合并回 `main`：
+
+```bash
+git switch main
+git merge 分支名
+git push origin main
+```
+
+如果当前分支和 `main` 没有分叉，通常会是 fast-forward 合并，历史会比较干净。
+
 ---
 
 ## 7. 撤销与回退（谨慎操作）
+
+### 工作区、暂存区、提交历史
+
+Git 常见状态可以简单理解为三层：
+
+| 层级 | 说明 |
+|------|------|
+| 工作区 | 当前文件夹里正在编辑的文件 |
+| 暂存区 | 已经 `git add`、准备进入下一次提交的内容 |
+| 提交历史 | 已经 `git commit` 形成的版本记录 |
 
 ```bash
 # 取消暂存（保留工作区修改）
@@ -269,6 +298,45 @@ git revert <commit-id>
 # 查看操作历史（可找回 reset --hard 丢失的提交）
 git reflog
 ```
+
+### `reset --soft` / `--mixed` / `--hard` 区别
+
+| 命令 | 影响提交历史 | 影响暂存区 | 影响工作区文件 | 常见用途 |
+|------|--------------|------------|----------------|----------|
+| `git reset --soft HEAD~1` | ✅ | ❌ | ❌ | 撤销一次提交，保留已暂存状态 |
+| `git reset --mixed HEAD~1` | ✅ | ✅ | ❌ | 撤销一次提交，并取消暂存，保留文件修改 |
+| `git reset --hard HEAD~1` | ✅ | ✅ | ✅ | 彻底回到上一个提交，丢弃之后修改 |
+
+简单记法：
+
+- `--soft`：只改提交历史，不改代码。
+- `--mixed`：改提交历史和暂存区，不改工作目录。
+- `--hard`：提交历史、暂存区、工作目录全部重置，慎用。
+
+### 恢复某个文件或文件夹到指定提交
+
+不需要把整个仓库回退，也可以只恢复某个文件：
+
+```bash
+# 新版推荐写法
+git restore --source=<commit-id> 路径/文件名.md
+
+# 也可以恢复整个文件夹
+git restore --source=<commit-id> 路径/文件夹/
+
+# 旧版写法
+git checkout <commit-id> -- 路径/文件名.md
+```
+
+恢复后文件会变成工作区修改，需要再提交一次：
+
+```bash
+git add 路径/文件名.md
+git commit -m "restore: 恢复某文件到指定版本"
+git push
+```
+
+这种方式适合已经推送过的仓库，因为它不会改写远程历史。
 
 ---
 
@@ -407,4 +475,36 @@ git log --oneline -10
 
 ---
 
-*文档生成时间：2024年*
+## 15. 从临时笔记合并来的命令
+
+```bash
+# 添加文件
+git add 文件名
+git add .
+
+# 提交
+git commit -m "说明"
+
+# 查看状态与差异
+git status
+git diff
+
+# 查看分支
+git branch
+
+# 首次推送并关联上游分支
+git push -u origin master
+
+# 后续推送到远程 master
+git push origin master
+
+# 修改某个 remote 的地址
+git remote set-url github git@github.com:goldf2/gitlearn.git
+
+# 给 origin 追加第二个 push 地址
+git remote set-url --add --push origin git@gitee.com:goldf2/web2py-service-spec.git
+```
+
+---
+
+*文档整理时间：2026年*

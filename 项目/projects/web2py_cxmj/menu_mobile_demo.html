@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 移动端业务页面演示</title>
+  <link rel="stylesheet" href="vendor/adminlte-4.0.2/dist/css/adminlte.min.css">
+  <style>
+    :root {
+      --cx-system: #1455a3;
+      --cx-page: #8a6418;
+    }
+
+    body {
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+    }
+
+    .cx-page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    .phone-shell {
+      max-width: 430px;
+      margin: 0 auto;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      background: #101828;
+      padding: 1.2rem;
+    }
+
+    .phone {
+      position: relative;
+      min-height: 740px;
+      border-radius: 1.4rem;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+
+    .phone-top {
+      min-height: 56px;
+      border-bottom: 1px solid #d7dee7;
+      background: #fff;
+      padding: .8rem 1rem;
+    }
+
+    .float-btn {
+      position: absolute;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(15,23,42,.18);
+    }
+
+    .system-float {
+      top: .75rem;
+      right: .75rem;
+      background: var(--cx-system);
+    }
+
+    .page-float {
+      right: .9rem;
+      bottom: 1rem;
+      background: var(--cx-page);
+    }
+
+    .page-sheet {
+      position: absolute;
+      right: .75rem;
+      bottom: 4.2rem;
+      left: .75rem;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body class="bg-body-tertiary">
+  <main class="cx-page">
+    <header class="mb-4">
+      <h1 class="h2 mb-2">AdminLTE 移动端业务页面演示</h1>
+      <p class="text-secondary mb-3">移动端单独展示，不压缩桌面 cxmj layout。右上按钮承载系统导航，右下按钮承载页内导航和快捷入口；左侧 sidebar 在移动端可变为抽屉或模块首页入口。</p>
+      <a class="btn btn-outline-success" href="menu_structure_demo.html">返回桌面业务页面</a>
+      <a class="btn btn-outline-success" href="menu_mega_demo.html">打开 Mega menu 独立页面</a>
+    </header>
+
+    <div class="card card-primary card-outline">
+      <div class="card-header">
+        <div class="card-title">移动端业务页面</div>
+        <div class="card-tools">右上系统导航，右下页内导航 / 快捷按钮</div>
+      </div>
+      <div class="card-body">
+        <div class="phone-shell">
+          <div class="phone">
+            <button class="float-btn system-float" type="button" aria-label="系统导航">☰</button>
+
+            <div class="phone-top">
+              <strong>发货记录</strong>
+              <span class="badge text-bg-primary ms-2">系统导航收缩</span>
+            </div>
+
+            <div class="p-3">
+              <div class="card card-primary card-outline">
+                <div class="card-header"><div class="card-title">右上系统导航面板</div></div>
+                <div class="card-body">
+                  <span class="badge text-bg-light">系统首页</span>
+                  <span class="badge text-bg-light">应用</span>
+                  <span class="badge text-bg-light">通知</span>
+                  <span class="badge text-bg-light">站内信</span>
+                  <span class="badge text-bg-light">用户</span>
+                </div>
+              </div>
+
+              <div class="card card-success card-outline">
+                <div class="card-header"><div class="card-title">左侧导航移动端降级</div></div>
+                <div class="card-body text-secondary">同一份 Mega menu 菜单树在桌面端可渲染成 AdminLTE sidebar；移动端不常驻，可变成抽屉，或在当前模块首页提供同级跳转。</div>
+              </div>
+
+              <div class="card">
+                <div class="card-body">
+                  <nav aria-label="面包屑导航">
+                    <ol class="breadcrumb mb-3">
+                      <li class="breadcrumb-item">生产物流</li>
+                      <li class="breadcrumb-item">发货管理</li>
+                      <li class="breadcrumb-item active">发货记录</li>
+                    </ol>
+                  </nav>
+                  <h2 class="h4">发货记录</h2>
+                  <p class="text-secondary mb-0">小屏优先保留正文，页内导航和快捷动作收进右下按钮。</p>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-body">
+                  <strong>数据概览</strong>
+                  <p class="text-secondary mb-0">待发货 6 条，异常 2 条，今日计划 3 条。</p>
+                </div>
+              </div>
+
+              <div class="card card-warning card-outline page-sheet">
+                <div class="card-header"><div class="card-title">右下页内导航 / 快捷入口</div></div>
+                <div class="card-body">
+                  <span class="badge text-bg-light">列表</span>
+                  <span class="badge text-bg-light">看板</span>
+                  <span class="badge text-bg-light">统计</span>
+                  <span class="badge text-bg-light">全部</span>
+                  <span class="badge text-bg-light">异常</span>
+                  <span class="badge text-bg-light">快捷</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="float-btn page-float" type="button" aria-label="页内导航与快捷按钮">···</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="vendor/bootstrap-5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/adminlte-4.0.2/dist/js/adminlte.min.js"></script>
+</body>
+</html>

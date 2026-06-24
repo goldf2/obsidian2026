@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>S3-存储外部独立化规范</title>
+  <style>
+      *{box-sizing:border-box}
+      body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1f2937;background:#f4f8f7;letter-spacing:0}
+      .doc-shell{position:relative;min-height:100vh;padding:28px;background:linear-gradient(180deg, #f4f8f7 0%, #edf5f3 100%);overflow:hidden;isolation:isolate}
+      .doc-shell::before,.doc-shell::after{content:"";position:absolute;border-radius:999px;filter:blur(18px);opacity:.9;z-index:-1}
+      .doc-shell::before{top:22px;left:18px;width:240px;height:240px;background:radial-gradient(circle, rgba(15, 118, 110, 0.12) 0%, transparent 68%)}
+      .doc-shell::after{right:36px;bottom:16px;width:300px;height:300px;background:radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%)}
+      .doc-page{position:relative;max-width:1120px;margin:0 auto;padding:42px 48px 54px;border:1px solid rgba(215, 226, 224, 0.9);border-radius:28px;background:rgba(255, 255, 255, 0.92);box-shadow:0 28px 80px rgba(15, 23, 42, 0.10);backdrop-filter:blur(10px)}
+      .doc-content>:first-child{margin-top:0}.doc-content>:last-child{margin-bottom:0}
+      h1,h2,h3{margin:1.2em 0 .55em;line-height:1.28}
+      h1{position:relative;font-size:34px;padding-bottom:18px;border-bottom:1px solid #d7e2e0}
+      h1::after{content:"";position:absolute;left:0;bottom:-1px;width:120px;height:4px;border-radius:999px;background:linear-gradient(90deg, #0f766e, #2563eb)}
+      h2{font-size:21px} h3{font-size:17px}
+      p,li,td,th{font-size:14px;line-height:1.75}
+      a{color:#0f766e}
+      hr{margin:24px 0;border:0;border-top:1px solid #d7e2e0}
+      table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;border-radius:14px;overflow:hidden}
+      th,td{border:1px solid #d7e2e0;padding:8px 10px;text-align:left;vertical-align:top}
+      th{background:#eef7f5;color:#5f6f77;font-weight:600}
+      tbody tr:nth-child(even) td{background:#f8fcfb}
+      blockquote{margin:14px 0;padding:9px 12px;border-left:4px solid #0f766e;background:#def7f3;color:#115e59;border-radius:0 14px 14px 0}
+      pre{overflow:auto;padding:12px;border:1px solid #d7e2e0;border-radius:14px;background:#edf6f4;box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.7)}
+      code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+      :not(pre)>code{padding:2px 5px;border-radius:5px;background:#edf6f4}
+      .mermaid{margin:16px 0;padding:16px;border:1px solid #d7e2e0;border-radius:16px;background:#ffffff;box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.7)}
+      @media (max-width:980px){.doc-shell{padding:16px}.doc-page{padding:28px 20px 34px;border-radius:20px}}
+      </style>
+</head>
+<body>
+  <main class="doc-shell"><section class="doc-page"><article class="doc-content"><h1>S3 存储外部独立化规范</h1>
+<h2>1. 阶段定位</h2>
+<p>S3 把数据库、上传文件、真实配置和 runtime 从 app 目录中独立出来，使代码目录可重建、数据不丢失。</p>
+<h2>2. 阶段目标</h2>
+<ul>
+<li>建立统一的外部数据路径规则。</li>
+<li>使 app 目录只承担代码和模板职责。</li>
+<li>为 Git 纳管和 Docker 化做好持久化边界准备。</li>
+</ul>
+<h2>3. 必做事项</h2>
+<ul>
+<li>设计 <code>/data/&lt;web2py_service&gt;/&lt;app&gt;</code> 逻辑路径。</li>
+<li>外置数据库、uploads、config、runtime。</li>
+<li>明确权限、迁移步骤和回滚方式。</li>
+</ul>
+<h2>4. 交付物</h2>
+<ul>
+<li>外部数据目录规范。</li>
+<li>数据迁移步骤模板。</li>
+<li>验证与回滚清单。</li>
+</ul>
+<h2>5. 验收标准</h2>
+<ul>
+<li>重建 app 代码目录后数据不丢。</li>
+<li>上传、下载、登录、日志和错误票据仍可用。</li>
+</ul>
+<h2>6. 关联文档</h2>
+<ul>
+<li><code>数据存储与PaaS部署治理路线图.md</code></li>
+<li><code>数据代码分离统一规范.md</code></li>
+</ul>
+</article></section></main>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad:true,
+      securityLevel:'loose',
+      theme:'base',
+      themeVariables:{"primaryColor":"#eef7f5","primaryBorderColor":"#0f766e","primaryTextColor":"#1f2937","lineColor":"#5f6f77","secondaryColor":"#def7f3","tertiaryColor":"#ffffff","background":"#ffffff","mainBkg":"#eef7f5","fontFamily":"-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"}
+    });
+  </script>
+</body>
+</html>

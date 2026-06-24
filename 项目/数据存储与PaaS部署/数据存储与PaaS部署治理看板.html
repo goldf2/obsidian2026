@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>web2py 数据存储与 PaaS 部署方案覆盖看板</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #20242c;
+      --muted: #667085;
+      --line: #d9dee8;
+      --blue: #2563eb;
+      --green: #16a34a;
+      --gray: #98a2b3;
+      --font-scale: 1.12;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: 0;
+    }
+
+    header {
+      padding: 28px 32px 18px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: calc(24px * var(--font-scale));
+      font-weight: 700;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: calc(16px * var(--font-scale));
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: calc(14px * var(--font-scale));
+      line-height: 1.6;
+      max-width: 980px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .action-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      color: var(--text);
+      font-size: calc(13px * var(--font-scale));
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .action-link:hover { text-decoration: underline; }
+
+    button.action-link {
+      cursor: pointer;
+    }
+
+    button.action-link.active {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: #eff6ff;
+    }
+
+    main {
+      padding: 24px 32px 36px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      min-width: 0;
+    }
+
+    .span-5 { grid-column: span 5; }
+    .span-7 { grid-column: span 7; }
+    .span-12 { grid-column: span 12; }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .summary-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfe;
+      min-height: 112px;
+    }
+
+    .summary-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: calc(28px * var(--font-scale));
+      line-height: 1;
+    }
+
+    .summary-item b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: calc(14px * var(--font-scale));
+    }
+
+    .summary-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: calc(12px * var(--font-scale));
+      line-height: 1.5;
+    }
+
+    .flow-box {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .flow-box .mermaid,
+    .flow-box svg {
+      margin: 0 auto;
+    }
+
+    .flow-box .mermaid {
+      min-width: 760px;
+      font-size: calc(18px * var(--font-scale));
+    }
+
+    .flow-box svg {
+      min-width: 760px;
+      min-height: 720px;
+      font-size: calc(18px * var(--font-scale));
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: calc(13px * var(--font-scale));
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 600;
+      background: #fbfcfe;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: calc(12px * var(--font-scale));
+      background: #eef2ff;
+      color: #3730a3;
+      white-space: nowrap;
+    }
+
+    .badge.ok { background: #ecfdf5; color: #166534; }
+    .badge.todo { background: #f2f4f7; color: #475467; }
+
+    canvas {
+      width: 100% !important;
+      max-height: 320px;
+    }
+
+    @media (max-width: 900px) {
+      header, main { padding-left: 16px; padding-right: 16px; }
+      .span-5, .span-7 { grid-column: span 12; }
+      .summary { grid-template-columns: 1fr; }
+      .flow-box { padding: 16px; }
+      .flow-box .mermaid,
+      .flow-box svg { min-width: 680px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>web2py 数据存储与 PaaS 部署方案覆盖看板</h1>
+    <p class="subtitle">本页只区分已有方案部分和尚未规划部分；不记录项目执行状态，也不按云 PaaS、Coolify、自建 Compose 或传统部署做比例展示。</p>
+    <div class="actions">
+      <a class="action-link" href="#existing-summary">阶段入口</a>
+      <a class="action-link" href="README.md">返回文档索引</a>
+      <button class="action-link" type="button" data-font-scale="1" title="减小字号">A-</button>
+      <button class="action-link" type="button" data-font-scale="1.12" title="默认字号">A</button>
+      <button class="action-link" type="button" data-font-scale="1.3" title="放大字号">A+</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid">
+      <div class="panel span-12">
+        <h2>现状 - 方案 - 目标</h2>
+        <div class="summary">
+          <div class="summary-item">
+            <b>现状</b>
+            <p>代码、运行数据、真实配置、上传文件和部署方式仍可能混在同一现场，直接 Git 纳管、Docker 化或 PaaS 迁移存在误带数据和密钥的风险。</p>
+          </div>
+          <div class="summary-item">
+            <b>方案</b>
+            <p>按 S0-S7 递进治理：先备份盘点，再分离代码与数据、外置存储、建立代码基线，最后进入 Docker 化和平台路线选择。</p>
+          </div>
+          <div class="summary-item">
+            <b>目标</b>
+            <p>形成可盘点、可追溯、可重建、可切换、可回滚的治理链路；平台路线可以替换，应用代码和数据边界保持稳定。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel span-7">
+        <h2>方案覆盖概览</h2>
+        <canvas id="coverageChart"></canvas>
+      </div>
+
+      <div class="panel span-5">
+        <h2>状态口径</h2>
+        <div class="summary">
+          <div class="summary-item">
+            <strong>10</strong>
+            <b><span class="badge ok">已有方案</span></b>
+            <p>已经有稳定文档、治理原则或明确路线，可作为当前讨论基线。</p>
+          </div>
+          <div class="summary-item">
+            <strong>6</strong>
+            <b><span class="badge todo">尚未规划</span></b>
+            <p>还缺独立方案、选型标准、操作细则或风险边界。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel span-12" id="existing-summary">
+        <h2>治理流程与阶段入口</h2>
+        <div class="flow-box">
+          <pre class="mermaid">flowchart TD
+    S0["S0 现状保护与盘点<br/>备份、盘点、.gitignore 草案"] --> S1["S1 结构规范化<br/>菜单、认证、权限、app 边界"]
+    S1 --> S2["S2 数据代码分离<br/>明确哪些能进 Git"]
+    S2 --> S3["S3 存储外部独立化<br/>数据库、uploads、config、runtime 外置"]
+    S3 --> S4["S4 正式 Git 纳管<br/>提交清理后的代码基线"]
+    S4 --> S5["S5 Docker 化<br/>镜像、env、volume、healthcheck"]
+    S5 --> S6A["S6A 云服务商 PaaS<br/>尚未规划"]
+    S5 --> S6B["S6B Coolify<br/>尚未规划"]
+    S5 --> S6C["S6C 自建 Compose<br/>已有方案"]
+    S6A --> S7["S7 生产切换与回滚"]
+    S6B --> S7
+    S6C --> S7
+
+    classDef ready fill:#ecfdf5,stroke:#16a34a,color:#20242c;
+    classDef todo fill:#f2f4f7,stroke:#98a2b3,color:#475467;
+    class S0,S1,S2,S3,S4,S5,S6C ready;
+    class S6A,S6B,S7 todo;
+
+    click S0 "S0-现状保护与盘点规范.html" "打开 S0 现状保护与盘点规范"
+    click S1 "S1-结构规范化规范.html" "打开 S1 结构规范化规范"
+    click S2 "S2-数据代码分离规范.html" "打开 S2 数据代码分离规范"
+    click S3 "S3-存储外部独立化规范.html" "打开 S3 存储外部独立化规范"
+    click S4 "S4-代码正式纳入Git管理规范.html" "打开 S4 代码正式纳入 Git 管理规范"
+    click S5 "S5-Docker化规范.html" "打开 S5 Docker 化规范"
+    click S6A "S6-平台部署路线规范.html" "打开 S6 平台部署路线规范"
+    click S6B "S6-平台部署路线规范.html" "打开 S6 平台部署路线规范"
+    click S6C "S6-平台部署路线规范.html" "打开 S6 平台部署路线规范"
+    click S7 "S7-生产切换与回滚规范.html" "打开 S7 生产切换与回滚规范"</pre>
+        </div>
+      </div>
+
+      <div class="panel span-12">
+        <h2>建议时间节点</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>时间节点</th>
+              <th>治理主题</th>
+              <th>截止要求</th>
+              <th>未完成影响</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>T0 / 第 0 周</td>
+              <td>S0 现状保护与盘点</td>
+              <td>备份原始目录，盘点代码、数据库、上传文件、真实配置和 runtime，形成 .gitignore 草案。</td>
+              <td>直接建仓可能误提交生产数据、密钥和 runtime。</td>
+            </tr>
+            <tr>
+              <td>T1 / 第 1 周</td>
+              <td>S1 结构规范化</td>
+              <td>完成菜单、认证、权限、app 边界和项目文档模板的统一口径。</td>
+              <td>后续治理范围不清，项目差异难以记录。</td>
+            </tr>
+            <tr>
+              <td>T2 / 第 2-3 周</td>
+              <td>S2 数据代码分离</td>
+              <td>明确哪些文件未来可进 Git，哪些运行数据必须外置或忽略。</td>
+              <td>容器化和 PaaS 化时容易覆盖生产数据。</td>
+            </tr>
+            <tr>
+              <td>T3 / 第 4-5 周</td>
+              <td>S3 存储外部独立化</td>
+              <td>形成数据库、uploads、config、runtime 的迁移模板和验证清单。</td>
+              <td>服务实例无法做到可重建，迁移风险高。</td>
+            </tr>
+            <tr>
+              <td>T4 / 第 6 周</td>
+              <td>S4 代码正式纳入 Git 管理</td>
+              <td>在 S1-S3 清理后完成仓库初始化、初始代码基线提交和基础 CI 检查。</td>
+              <td>后续 Docker 化、平台化缺少可追溯代码基线。</td>
+            </tr>
+            <tr>
+              <td>T5 / 第 7 周</td>
+              <td>S5 Docker 化</td>
+              <td>形成 Dockerfile、Compose、env、volume、healthcheck 基线样例。</td>
+              <td>PaaS 选型缺少统一交付入口。</td>
+            </tr>
+            <tr>
+              <td>T6 / 第 8 周以后</td>
+              <td>S6 平台路线规划</td>
+              <td>分别规划云服务商 PaaS、Coolify 和自建 Compose 的部署细则。</td>
+              <td>平台专用配置容易污染 web 开发规范。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const fontScaleKey = 'paasDashboardFontScale';
+    const fontButtons = Array.from(document.querySelectorAll('[data-font-scale]'));
+    const readFontScale = () => {
+      try {
+        return localStorage.getItem(fontScaleKey);
+      } catch {
+        return null;
+      }
+    };
+    const saveFontScale = (scale) => {
+      try {
+        localStorage.setItem(fontScaleKey, String(scale));
+      } catch {
+        // Local file contexts can disable storage; the current click still applies.
+      }
+    };
+    const applyFontScale = (scale) => {
+      const nextScale = Number(scale) || 1;
+      document.documentElement.style.setProperty('--font-scale', String(nextScale));
+      saveFontScale(nextScale);
+      fontButtons.forEach((button) => {
+        button.classList.toggle('active', Number(button.dataset.fontScale) === nextScale);
+      });
+    };
+
+    applyFontScale(readFontScale() || 1.12);
+    fontButtons.forEach((button) => {
+      button.addEventListener('click', () => applyFontScale(button.dataset.fontScale));
+    });
+
+    const palette = {
+      green: '#16a34a',
+      gray: '#98a2b3'
+    };
+
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: 'loose',
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#ecfdf5',
+        primaryBorderColor: '#16a34a',
+        primaryTextColor: '#20242c',
+        lineColor: '#98a2b3',
+        fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif'
+      }
+    });
+
+    new Chart(document.getElementById('coverageChart'), {
+      type: 'bar',
+      data: {
+        labels: ['已有方案', '尚未规划'],
+        datasets: [{
+          label: '方案主题数量',
+          data: [10, 6],
+          backgroundColor: [palette.green, palette.gray],
+          borderRadius: 6,
+          maxBarThickness: 72
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { precision: 0 }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
