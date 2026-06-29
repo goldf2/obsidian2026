@@ -11,14 +11,10 @@
             "id": "7f81ffdaaebf8e5f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "工作日记.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "工作日记"
+              "title": "新标签页"
             }
           }
         ]
@@ -183,19 +179,24 @@
       "bases:新建数据库": false
     }
   },
-  "active": "7f81ffdaaebf8e5f",
+  "active": "92acd6a09f70124a",
   "lastOpenFiles": [
+    "项目/数据存储与PaaS部署/数据存储与Paas部署(草案).zip",
+    "项目/数据存储与PaaS部署/数据存储与Paas部署.zip",
+    "项目/数据存储与PaaS部署/归档.zip",
+    "项目/数据存储与PaaS部署/S3-存储外部独立化规范_副本.html",
+    "项目/数据存储与PaaS部署/S7-生产切换与回滚规范_副本.html",
+    "项目/数据存储与PaaS部署/S6-平台部署路线规范_副本.html",
+    "项目/数据存储与PaaS部署/S5-Docker化规范_副本.html",
+    "项目/数据存储与PaaS部署/S4-代码正式纳入Git管理规范_副本.html",
+    "项目/数据存储与PaaS部署/S2-数据代码分离规范_副本.html",
+    "项目/数据存储与PaaS部署/S1-结构规范化规范_副本.html",
+    "项目/数据存储与PaaS部署/S0-现状保护与盘点规范_副本.html",
     "coolify-static/md-html-tool/README.md",
-    "coolify-static/md-html-tool/index.html",
-    "coolify-static/md-html-tool",
-    "coolify-static",
     "仓库与文档管理总则.md",
     "文档归属边界规范.md",
     "笔记/文档归属边界规范.md",
     "笔记/仓库与文档管理总则.md",
-    "项目/odoo数字化工厂",
-    "项目/未命名文件夹",
-    "项目/创新",
     "VPS-AL03/deploy-inventory.md",
     "工作日记.md"
   ]
